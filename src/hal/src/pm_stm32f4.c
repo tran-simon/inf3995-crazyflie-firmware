@@ -149,7 +149,11 @@ static void pmSetBatteryVoltage(float voltage)
 static void pmSystemShutdown(void)
 {
 #ifdef ACTIVATE_AUTO_SHUTDOWN
-//TODO: Implement syslink call to shutdown
+  SyslinkPacket slp;
+
+  slp.type = SYSLINK_PM_ONOFF_SWITCHOFF;
+  slp.length = 0;
+  syslinkSendPacket(&slp);
 #endif
 }
 
@@ -157,24 +161,24 @@ static void pmSystemShutdown(void)
  * Returns a number from 0 to 9 where 0 is completely discharged
  * and 9 is 90% charged.
  */
-static int32_t pmBatteryChargeFromVoltage(float voltage)
+float pmBatteryChargeFromVoltage(float voltage)
 {
   int charge = 0;
+  float chargeRelative = 0.0;
 
-  if (voltage < bat671723HS25C[0])
-  {
-    return 0;
+  if (voltage <= bat671723HS25C[0]){
+    return 0.0;
   }
-  if (voltage > bat671723HS25C[9])
-  {
-    return 9;
-  }
+
   while (voltage >  bat671723HS25C[charge])
   {
     charge++;
   }
 
-  return charge;
+  chargeRelative = ((charge - 1) * 10) + (((voltage - bat671723HS25C[charge - 1]) / (bat671723HS25C[charge] - bat671723HS25C[charge - 1])) * 10);
+
+
+  return chargeRelative;
 }
 
 

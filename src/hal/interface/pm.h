@@ -175,4 +175,7 @@ void pmEnableExtBatteryCurrMeasuring(const deckPin_t pin, float ampPerVolt);
  */
 float pmMeasureExtBatteryCurrent(void);
 
+
+float pmBatteryChargeFromVoltage(float voltage);
+
 #endif /* PM_H_ */
