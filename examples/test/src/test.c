@@ -38,7 +38,6 @@ void appMain()
 {
 	static setpoint_t setpoint;
 
-	int value = 0;
 	float battery = 0.0;
 	char command;
 	struct Information response;
@@ -47,9 +46,7 @@ void appMain()
 
 	while(1){
 		if (appchannelReceivePacket(&command, sizeof(command), 100)) {
-			if(command == 'l'){
-				value = value ^ 1;
-				ledSet(0, value);
+			if(command == 't'){
 				setHoverSetpoint(&setpoint, 0, 0, 0.5f, 0);
 				commanderSetSetpoint(&setpoint, 3);
 			}
@@ -59,6 +56,11 @@ void appMain()
 				response.value = battery;
 				response.type = 'b';
 				appchannelSendPacket(&response, sizeof(response));
+			}
+
+			else if (command == 'l') {
+				setHoverSetpoint(&setpoint, 0, 0, 0.0f, 0);
+				commanderSetSetpoint(&setpoint, 3);
 			}
 		}
 	}
