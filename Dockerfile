@@ -36,21 +36,21 @@ ARG UPDATE_CODE=unknown
 
 COPY . crazyflie-firmware
 
-#RUN cd crazyflie-firmware &&\
-	#rm -rf .git &&\
-	#git init &&\
- 	#git commit --allow-empty -n -m "Initial commit".
-
-
-
-
 
 RUN git clone https://github.com/bitcraze/crazyflie-clients-python.git
-
 RUN cp crazyflie-firmware/clientSetup.py crazyflie-clients-python/setup.py
-
 RUN cd crazyflie-clients-python &&\
 	python3 -m pip install -e .
 
-WORKDIR /root/crazyflie-firmware
+
+#RUN cd crazyflie-firmware/crazyflie-lib-python &&\
+#	python3 -m pip install -r requirements.txt &&\
+#	python3 -m pip install -e .
+
+WORKDIR /root/crazyflie-firmware/examples/test
+
+#RUN make
+#
+#CMD ['make', 'cload']
+
 
