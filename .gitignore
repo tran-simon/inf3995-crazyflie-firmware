@@ -27,3 +27,7 @@ docs/.jekyll-cache
 
 **/.idea/
 **/*.iml
+
+
+**.o
+**.o.d
