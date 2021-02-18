@@ -31,3 +31,8 @@ docs/.jekyll-cache
 
 **.o
 **.o.d
+**.bin
+**.dfu
+**.elf
+**.hex
+**.map
