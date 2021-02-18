@@ -1,3 +1,6 @@
+Only files in inf3995-firmware should be modified. The firmware code itself will be clone on docker build.
+
+
 # Crazyflie Firmware  [![CI](https://github.com/bitcraze/crazyflie-firmware/workflows/CI/badge.svg)](https://github.com/bitcraze/crazyflie-firmware/actions?query=workflow%3ACI)
 
 This project contains the source code for the firmware used in the Crazyflie range of platforms, including

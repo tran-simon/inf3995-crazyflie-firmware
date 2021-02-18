@@ -369,7 +369,7 @@ endif
 #################### Targets ###############################
 
 
-all: bin/ bin/dep bin/vendor build
+all: bin/ bin/dep bin/vendor check_submodules build
 build:
 # Each target is in a different line, so they are executed one after the other even when the processor has multiple cores (when the -j option for the make command is > 1). See: https://www.gnu.org/software/make/manual/html_node/Parallel.html
 	@$(MAKE) --no-print-directory clean_version CRAZYFLIE_BASE=$(CRAZYFLIE_BASE)
@@ -454,6 +454,9 @@ erase:
 prep:
 	@$(CC) $(CFLAGS) -dM -E - < /dev/null
 
+check_submodules:
+	@cd $(CRAZYFLIE_BASE); $(PYTHON) tools/make/check-for-submodules.py
+
 include $(CRAZYFLIE_BASE)/tools/make/targets.mk
 
 #include dependencies
@@ -463,4 +466,4 @@ unit:
 # The flag "-DUNITY_INCLUDE_DOUBLE" allows comparison of double values in Unity. See: https://stackoverflow.com/a/37790196
 	rake unit "DEFINES=$(CFLAGS) -DUNITY_INCLUDE_DOUBLE" "FILES=$(FILES)" "UNIT_TEST_STYLE=$(UNIT_TEST_STYLE)"
 
-.PHONY: all clean build compile unit prep erase flash trace openocd gdb halt reset flash_dfu flash_verify cload size print_version clean_version
+.PHONY: all clean build compile unit prep erase flash check_submodules trace openocd gdb halt reset flash_dfu flash_verify cload size print_version clean_version
