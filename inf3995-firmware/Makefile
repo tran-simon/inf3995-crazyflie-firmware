@@ -6,5 +6,5 @@ APP_STACKSIZE=300
 VPATH += src/
 PROJ_OBJ += Main.o InformationHandler.o CommandHandler.o
 
-CRAZYFLIE_BASE=../..
+CRAZYFLIE_BASE=../
 include $(CRAZYFLIE_BASE)/Makefile
