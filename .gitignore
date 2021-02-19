@@ -27,3 +27,12 @@ docs/.jekyll-cache
 
 **/.idea/
 **/*.iml
+
+
+**.o
+**.o.d
+**.bin
+**.dfu
+**.elf
+**.hex
+**.map

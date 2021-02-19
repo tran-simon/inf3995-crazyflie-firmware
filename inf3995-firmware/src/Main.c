@@ -1,0 +1,34 @@
+#include <string.h>
+#include <stdint.h>
+#include <stdbool.h>
+
+#include "app.h"
+
+#include "commander.h"
+#include "debug.h"
+#include "app_channel.h"
+#include "log.h"
+#include "param.h"
+#include "../interface/InformationHandler.h"
+#include "../interface/CommandHandler.h"
+
+
+void appMain()
+{
+	char command;
+	struct Information response;
+
+	while(1){
+		if (appchannelReceivePacket(&command, sizeof(command), 100)) {
+			
+			if(command != 't' && command != 'l' && command != 'f' && command != 'r'){
+				response = getStats(command);
+				appchannelSendPacket(&response, sizeof(response));
+			}
+			
+			else{
+				response = activateCommand(command);
+			}
+		}
+	}
+}

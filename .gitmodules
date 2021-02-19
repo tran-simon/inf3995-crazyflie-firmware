@@ -14,6 +14,3 @@
 	path = vendor/FreeRTOS
 	url = https://github.com/FreeRTOS/FreeRTOS-Kernel
 	branch = V10.2.1-convergence-FreeRTOS-Source
-[submodule "crazyflie-lib-python"]
-	path = crazyflie-lib-python
-	url = https://github.com/bitcraze/crazyflie-lib-python.git

@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     python-numpy \
     sudo \
     software-properties-common \
+    make \
     && rm -rf /var/lib/apt/lists/*
 
 # Install crazyflie dependencies
@@ -34,23 +35,18 @@ WORKDIR /root
 
 ARG UPDATE_CODE=unknown
 
+RUN git clone --depth 1 --branch 2021.01 --recurse-submodule https://github.com/bitcraze/crazyflie-firmware.git
+
 COPY . crazyflie-firmware
 
-
 RUN git clone https://github.com/bitcraze/crazyflie-clients-python.git
-RUN cp crazyflie-firmware/clientSetup.py crazyflie-clients-python/setup.py
+
+COPY clientSetup.py crazyflie-clients-python/setup.py
+
 RUN cd crazyflie-clients-python &&\
 	python3 -m pip install -e .
 
 
-#RUN cd crazyflie-firmware/crazyflie-lib-python &&\
-#	python3 -m pip install -r requirements.txt &&\
-#	python3 -m pip install -e .
+WORKDIR /root/crazyflie-firmware/inf3995-firmware
 
-WORKDIR /root/crazyflie-firmware/examples/test
-
-#RUN make
-#
-#CMD ['make', 'cload']
-
-
+RUN make
