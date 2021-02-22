@@ -21,20 +21,18 @@ void setHoverSetpoint(setpoint_t *setpoint, float vx, float vy, float z, float y
 
 struct Information activateCommand(char command){
     struct Information response;
-    setpoint_t setpoint;
+    //setpoint_t setpoint;
 
     switch (command)
     {
     case 't':
-        setHoverSetpoint(&setpoint, 0, 0, 0.5f, 0);
-		commanderSetSetpoint(&setpoint, 3);
+        crtpCommanderHighLevelTakeoff(0.5f, 2.0f);
         response.type = 't';
         response.value = 1;
         break;
     
     case 'l':
-        setHoverSetpoint(&setpoint, 0, 0, 0.0f, 0);
-		commanderSetSetpoint(&setpoint, 3);
+        crtpCommanderHighLevelLand(0.0f, 2.0f);
         response.type = 'l';
         response.value = 0;
         break;

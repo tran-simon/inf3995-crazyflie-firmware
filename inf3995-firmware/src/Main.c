@@ -15,6 +15,9 @@
 
 void appMain()
 {
+	paramVarId_t paramIdCommanderEnHighLevel = paramGetVarId("commander", "enHighLevel");
+  	paramSetInt(paramIdCommanderEnHighLevel, 1);
+
 	char command;
 	struct Information response;
 
