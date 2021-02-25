@@ -3,30 +3,28 @@
 
 struct Information getStats(char command){
     struct Information response;
+    //Get the actual setpoint and state of the drone
     setpoint_t setpoint;
     state_t state;
-    float speed = 0.0f;
-
     crtpCommanderHighLevelGetSetpoint(&setpoint, &state);
-    if(!isnanf(state.velocity.x) && !isnanf(state.velocity.y) && !isnanf(state.velocity.z)) {
-        speed = sqrtf(powf(state.velocity.x, 2) + powf(state.velocity.y, 2) + powf(state.velocity.z, 2));
-    }
-    
 
     switch (command)
     {
+    //Get the battery
     case 'b':
-        response.value = pmBatteryChargeFromVoltage(pmGetBatteryVoltage());
+        response.value = getBattery();
         response.type = 'b';
         break;
     
+    //Get the speed
     case 'v':
-        response.value = speed;
+        response.value = getSpeed(state);
         response.type = 'v';
         break;
 
+    //Get the state
     case 's':
-        if(speed > 0.0f) {
+        if(getSpeed(state) >= 0.02f) {
             response.value = 1.0f;
         }
         else {
@@ -35,6 +33,11 @@ struct Information getStats(char command){
         response.type = 's';
         break;
 
+    //Temporary: get the point in front of the drone
+    case 'p':
+        response.value = getPoint(state).x;
+        response.type = 'p';
+        break;
 
     default:
         break;
