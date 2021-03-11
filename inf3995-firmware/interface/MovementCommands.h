@@ -18,3 +18,9 @@ void rotate(float angle);
  * @return void
  */
 void goForward(float distance);
+
+
+void elevateDrone(float height);
+
+void lowerDrone(float height);
+
