@@ -2,6 +2,8 @@
 
 void takeOff(){
     elevateDrone(0.5f);
+    sleepus(300000);
+    explore();
 };
 
 void land(){
