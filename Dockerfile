@@ -44,7 +44,7 @@ RUN git clone --branch 2021.1 https://github.com/bitcraze/crazyflie-clients-pyth
 COPY clientSetup.py crazyflie-clients-python/setup.py
 
 RUN cd crazyflie-clients-python &&\
-	python3 -m pip install -e .
+	python3 -m pip install -e git+https://github.com/bitcraze/crazyflie-lib-python@0.1.13.1#egg=crazyflie-lib-python
 
 
 WORKDIR /root/crazyflie-firmware/inf3995-firmware
