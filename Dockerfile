@@ -35,17 +35,18 @@ WORKDIR /root
 
 ARG UPDATE_CODE=unknown
 
-RUN git clone --depth 1 --branch 2021.01 --recurse-submodule https://github.com/bitcraze/crazyflie-firmware.git
+RUN git clone --depth 1 --recurse-submodule https://github.com/bitcraze/crazyflie-firmware.git
 
 COPY . crazyflie-firmware
 
-RUN git clone --branch 2021.1 https://github.com/bitcraze/crazyflie-clients-python.git
+RUN git clone https://github.com/bitcraze/crazyflie-clients-python.git
 
 COPY clientSetup.py crazyflie-clients-python/setup.py
 
-RUN cd crazyflie-clients-python &&\
-	python3 -m pip install -e git+https://github.com/bitcraze/crazyflie-lib-python@0.1.13.1#egg=crazyflie-lib-python
+RUN python3 -m pip install --upgrade pip
 
+RUN cd crazyflie-clients-python &&\
+	python3 -m pip install -e .
 
 WORKDIR /root/crazyflie-firmware/inf3995-firmware
 
