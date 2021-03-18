@@ -1,12 +1,15 @@
 #include "crtp_commander_high_level.h"
 #include "../interface/SensorCommands.h"
-enum CfExplorationState {
+#include "sleepus.h"
+#include "led.h"
+#include "sound.h"
+/*enum CfExplorationState {
       FORWARD,
       WALL_END,
       ROTATE,
       DEBOUNCE,
       AVOID_WALL
-   };
+   };*/
 
    enum CfExplorationDir {
       LEFT_WALL,
@@ -27,6 +30,13 @@ enum CfExplorationState {
        float leftDistance;
        float rightDistance;
    };
+
+enum ExplorationDirection {
+      FORWARD,
+      BACKWARD,
+      LEFT,
+      RIGHT
+};
 /**
  * @brief Rotate the drone to his left
  *
@@ -52,4 +62,10 @@ void lowerDrone(float height);
 
 void explore();
 
-void stop();
+void avoidObstacles(struct RangingDeckReadings readings);
+
+void goBackwards(float distance);
+
+void goLeft(float distance);
+
+void goRight(float distance);
