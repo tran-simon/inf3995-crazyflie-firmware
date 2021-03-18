@@ -43,9 +43,10 @@ RUN git clone https://github.com/bitcraze/crazyflie-clients-python.git
 
 COPY clientSetup.py crazyflie-clients-python/setup.py
 
+RUN python3 -m pip install --upgrade pip
+
 RUN cd crazyflie-clients-python &&\
 	python3 -m pip install -e .
-
 
 WORKDIR /root/crazyflie-firmware/inf3995-firmware
 
