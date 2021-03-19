@@ -69,3 +69,7 @@ void goBackwards(float distance);
 void goLeft(float distance);
 
 void goRight(float distance);
+
+void stayInPlace();
+
+void debug();
