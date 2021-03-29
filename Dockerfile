@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     sudo \
     software-properties-common \
     make \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Install crazyflie dependencies
@@ -26,6 +27,9 @@ RUN add-apt-repository ppa:team-gcc-arm-embedded/ppa && apt-get update && apt-ge
 	python3-venv \
 	python3-pip
 
+# Install npm
+RUN curl -fsSL https://deb.nodesource.com/setup_15.x | sudo -E bash - &&\
+	apt-get install -y nodejs
 
 WORKDIR /root
 
@@ -51,3 +55,13 @@ RUN cd crazyflie-clients-python &&\
 WORKDIR /root/crazyflie-firmware/inf3995-firmware
 
 RUN make
+
+WORKDIR ../server
+
+RUN npm install
+
+ENV PORT=9000
+
+EXPOSE 9000
+
+CMD ["npm", "start"]
