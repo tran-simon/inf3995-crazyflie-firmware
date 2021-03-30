@@ -25,14 +25,17 @@ const runCommand = (command, res, errorMessage = "Error: ")=>{
 }
 
 app.get('/build', (req, res) => {
+  console.log("Building...")
   runCommand('make', res, "Error while building: ")
 })
 
 app.get('/clean', (req, res) => {
+  console.log("Cleaning...")
   runCommand('make clean', res, "Error while cleaning: ")
 })
 
 app.get('/flash', (req, res) => {
+  console.log("Flashing...")
   runCommand('make cload', res, "Error while cleaning: ")
 })
 
