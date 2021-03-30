@@ -2,7 +2,8 @@
 #include "../interface/SensorCommands.h"
 #include "sleepus.h"
 #include "led.h"
-#include "sound.h"
+#include "radiolink.h"
+#include "configblock.h"
 /*enum CfExplorationState {
       FORWARD,
       WALL_END,
@@ -73,3 +74,15 @@ void goRight(float distance);
 void stayInPlace();
 
 void debug();
+
+void test();
+
+void init();
+
+void p2pCallbackHandler(P2PPacket *p);
+
+//void sendP2P();
+
+//void receiveP2P();
+
+//void receiveInfo(P2PPacket *p);

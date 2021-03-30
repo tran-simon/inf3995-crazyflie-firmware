@@ -1,8 +1,8 @@
 #include "../interface/MovementCommands.h"
  static int state = FORWARD;
-/*ledSet(0, true);
-    sleepus(10000);
-    ledSet(0, false);*/
+ static bool isP2PSender = false;
+ //static int counter = 0;
+ static bool testing = false;
 //static float previousDist = 0.0f;
 
 void debug(int del){
@@ -128,3 +128,55 @@ void explore(){
     avoidObstacles(readings);
     
 };
+
+void test(){
+    if(!isP2PSender){p2pRegisterCB(p2pCallbackHandler);} // register a call back if you are not the sender
+    struct RangingDeckReadings readings;
+    readings.frontDistance = getFrontDistance();
+    readings.backDistance = getBackDistance();
+    readings.leftDistance = getLeftDistance();
+    readings.rightDistance = getRightDistance();
+
+    if(readings.frontDistance < 100.0f){
+        debug(0);
+        if(isP2PSender){
+        static P2PPacket pk;
+        pk.port = 0x00;
+        pk.size = 11;
+        memcpy(&pk.data, "Hello World", 11);
+        radiolinkSendP2PPacketBroadcast(&pk);
+    }
+    }
+
+    if(readings.backDistance < 100.0f){
+        debug(2);
+    }
+
+    if(readings.leftDistance < 100.0f){
+        debug(3);
+    }
+
+    if(readings.rightDistance < 100.0f){
+        debug(4);
+    }
+
+    if(testing){
+        debug(4);
+        testing = false;
+    }
+};
+
+void init(){
+    uint64_t address = configblockGetRadioAddress();
+    uint8_t id = (uint8_t) ((address) & 0x00000000ff);
+    if(id == 1){
+        isP2PSender = true;
+        debug(4);
+    }
+}
+
+void p2pCallbackHandler(P2PPacket *p){
+    // Do not make fonction too long ***
+    // call drone avoidance with p->data
+    testing = true;
+}

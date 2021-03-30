@@ -2,8 +2,6 @@
 #include "sleepus.h"
 #include "led.h"
 #include "app_channel.h"
-#include "sound.h"
-
 /**
  * @brief Take off drone and start exploring
  * 
