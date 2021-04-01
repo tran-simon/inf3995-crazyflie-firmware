@@ -5,7 +5,7 @@ const app = express();
 const port = process.env.PORT || 9000;
 
 const execOptions = {
-  cwd: '../'
+  cwd: '../inf3995-firmware'
 }
 
 app.get('/', (req, res) => {
