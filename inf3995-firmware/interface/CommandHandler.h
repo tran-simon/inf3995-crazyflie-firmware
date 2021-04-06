@@ -1,5 +1,5 @@
-#include "commander.h"
 #include "Info.h"
+#include "MissionCommands.h"
 
 void setHoverSetpoint(setpoint_t *setpoint, float vx, float vy, float z, float yawrate);
 

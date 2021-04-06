@@ -39,7 +39,7 @@ WORKDIR /root
 
 ARG UPDATE_CODE=unknown
 
-RUN git clone --depth 1 --branch 2021.01 --recurse-submodule https://github.com/bitcraze/crazyflie-firmware.git
+RUN git clone --depth 1 --recurse-submodule https://github.com/bitcraze/crazyflie-firmware.git
 
 COPY . crazyflie-firmware
 
