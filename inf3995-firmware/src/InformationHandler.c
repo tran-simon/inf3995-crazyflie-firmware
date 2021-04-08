@@ -35,7 +35,8 @@ struct Information getStats(char command){
 
     //Temporary: get the point in front of the drone
     case 'p':
-        response.value = getPoint(state).x;
+        //response.value = getPoint(state).x;
+        response.value = getRSSI();
         response.type = 'p';
         break;
 

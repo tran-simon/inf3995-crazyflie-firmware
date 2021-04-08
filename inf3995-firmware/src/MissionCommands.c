@@ -5,7 +5,7 @@ void takeOff(){
     //sleepus(400000);
     //init();
     //explore();
-    test();
+    debug(4);
 };
 
 void land(){
@@ -17,5 +17,11 @@ void returnToBase(){
     //lowerDrone(0.0f);
     debug(4);
 };
+
+void exploration() {
+    // Call explore function
+    test();
+}
+
 
 
