@@ -11,6 +11,12 @@ struct Information activateCommand(char command){
         response.type = 't';
         response.value = 1;
         break;
+    //Explore
+    case 'e':
+        exploration();
+        response.type = 't';
+        response.value = 1;
+        break;
     // Land
     case 'l':
         land();

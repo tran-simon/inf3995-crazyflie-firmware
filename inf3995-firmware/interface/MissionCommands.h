@@ -22,3 +22,5 @@ void land();
  * @return void
  */
 void returnToBase();
+
+void exploration();

@@ -20,7 +20,7 @@ void appMain()
 
 	char command;
 	struct Information response;
-	char state = 'w';
+	char state = 'o';
 
 	while(1){
 		if (appchannelReceivePacket(&command, sizeof(command), 100)) {
@@ -30,20 +30,23 @@ void appMain()
 				appchannelSendPacket(&response, sizeof(response));
 			}
 			else if(command == 't'){
-				state = 't';
+				activateCommand('t');
+				// switch to explore state
+				state = 'e';
 			}
 			else{
-				state = 'w';
+				// switch to other state
+				state = 'o';
 				response = activateCommand(command);
 			}
 		}
 
 		switch(state){
-			case 't': {
-				activateCommand('t');
+			case 'e': {
+				activateCommand('e');
 				break;
 			}
-			case 'w': {
+			case 'o': {
 				break;
 			}
 		}

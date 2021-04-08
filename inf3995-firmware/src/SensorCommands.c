@@ -21,12 +21,13 @@ float getBackDistance(){
 }
 
 float getBattery(){
-    return (pmBatteryChargeFromVoltage(pmGetBatteryVoltage()));
+    logVarId_t idbatt = logGetVarId("pm", "vbat");
+    return(logGetFloat(idbatt));
 }
 
 float getRSSI(){
     logVarId_t idRSSI = logGetVarId("radio", "rssi");
-    return((float)logGetUint(idRSSI));
+    return(logGetFloat(idRSSI));
 }
 
 
