@@ -4,6 +4,9 @@
 #include "led.h"
 #include "radiolink.h"
 #include "configblock.h"
+#include "explore_map.h"
+#include "node_array.h"
+
 /*enum CfExplorationState {
       FORWARD,
       WALL_END,
@@ -12,32 +15,34 @@
       AVOID_WALL
    };*/
 
-   enum CfExplorationDir {
-      LEFT_WALL,
-      RIGHT_WALL
-   };
-   
-   enum CfState {
-      STATE_START,
-      STATE_TAKE_OFF,
-      STATE_EXPLORE,
-      STATE_GO_TO_BASE,
-      STATE_LAND
-   };
-
-   struct RangingDeckReadings{
-       float frontDistance;
-       float backDistance;
-       float leftDistance;
-       float rightDistance;
-   };
-
-enum ExplorationDirection {
-      FORWARD,
-      BACKWARD,
-      LEFT,
-      RIGHT
+enum CfExplorationDir {
+   LEFT_WALL,
+   RIGHT_WALL
 };
+
+enum CfState {
+   STATE_START,
+   STATE_TAKE_OFF,
+   STATE_EXPLORE,
+   STATE_GO_TO_BASE,
+   STATE_LAND
+};
+
+struct RangingDeckReadings{
+      float frontDistance;
+      float backDistance;
+      float leftDistance;
+      float rightDistance;
+};
+
+typedef enum {
+   FRONT = Y_NEG,
+   LEFT  = X_POS,
+   BACK  = Y_POS,
+   RIGHT = X_NEG,
+   STOP  = NONE
+} CfDir;
+
 /**
  * @brief Rotate the drone to his left
  *

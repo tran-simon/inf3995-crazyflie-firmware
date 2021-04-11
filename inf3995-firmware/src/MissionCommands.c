@@ -1,16 +1,16 @@
 #include "../interface/MissionCommands.h"
 
 void takeOff(){
-    //elevateDrone(0.5f);
+    elevateDrone(0.5f);
     //sleepus(400000);
-    //init();
+    init();
     //explore();
-    debug(4);
+    //debug(4);
 };
 
 void land(){
-    //lowerDrone(0.0f);
-    debug(4);
+    lowerDrone(0.0f);
+    //debug(4);
 };
 
 void returnToBase(){
@@ -20,7 +20,7 @@ void returnToBase(){
 
 void exploration() {
     // Call explore function
-    test();
+    explore();
 }
 
 
