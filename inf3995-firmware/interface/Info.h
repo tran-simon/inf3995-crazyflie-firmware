@@ -2,7 +2,12 @@
 #define __INFO__
 
 struct Information {
-    float value;
+    float value1;
+    float value2;
+    float value3;
+    float value4;
+    float value5;
+    float value6;
     char type;
 }__attribute__((packed));
 
