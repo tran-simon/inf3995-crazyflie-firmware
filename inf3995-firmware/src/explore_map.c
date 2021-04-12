@@ -168,14 +168,14 @@ extern MapExplorationDir mGetBestDir (ExploreMap *obj, MapExplorationDir currDir
     if (currDir == Y_POS) { currSum = y_pos_sum; }
     if (currDir == X_NEG) { currSum = x_neg_sum; }
 
-    /* Return the next best direction, if it is at least 20% better than the curr dir */
+    /* Return the next best direction, if it is at least 200% better than the curr dir */
     int maxSum = max(y_neg_sum, max(x_pos_sum, max(y_pos_sum, x_neg_sum)));
     if (y_neg_sum == maxSum && maxSum > 2 * currSum) { return Y_NEG; }
     if (x_pos_sum == maxSum && maxSum > 2 * currSum) { return X_POS; }
     if (y_pos_sum == maxSum && maxSum > 2 * currSum) { return Y_POS; }
     if (x_neg_sum == maxSum && maxSum > 2 * currSum) { return X_NEG; }
 
-    /* If no direction is at least 20% better than the curr dir, return the curr dir */
+    /* If no direction is at least 200% better than the curr dir, return the curr dir */
     return currDir;
 }
 
@@ -278,9 +278,6 @@ extern void mBuildFlowMap(ExploreMap *obj) {
             }
         }
     }
-    // We free the allocated memory (cause issues at runtime)
-    // obj->newNodes->Free(obj->newNodes);
-    // obj->discovered->Free(obj->discovered);
 }
 
 extern MapExplorationDir mNextNode(ExploreMap *obj, int y_neg, int x_pos, int y_pos, int x_neg) {
@@ -323,14 +320,6 @@ extern MapExplorationDir mNextNode(ExploreMap *obj, int y_neg, int x_pos, int y_
         if (x_neg < minimalDist && x_neg != -2) return X_POS;
         if (y_neg < minimalDist && y_neg != -2) return Y_POS;
         if (x_pos < minimalDist && x_pos != -2) return X_NEG;
-
-        // We make sure we aren't in a wall
-        /*if (obj->distMap[x][y] < 1) {
-            if((y - 1) > -1 && obj->distMap[x][y - 1] > 0)       return Y_NEG;
-            if((x + 1) < MAP_SIZE && obj->distMap[x + 1][y] > 0) return X_POS;
-            if((y + 1) < MAP_SIZE && obj->distMap[x][y + 1] > 0) return Y_POS;
-            if((x - 1) > -1 && obj->distMap[x - 1][y] > 0)       return X_NEG;
-        } */
     }
     return dir;
 }

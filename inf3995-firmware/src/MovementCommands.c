@@ -8,6 +8,7 @@ static bool isP2PSender = false;
 //static int counter = 0;
 static bool testing = false;
 //static float previousDist = 0.0f;
+static float minimalDist = 500.0f;
 
 void debug(int del){
     for (int i=0; i< 200; ++i){
@@ -77,35 +78,36 @@ void explore(){
     readings.rightDistance = getRightDistance();
 
     /* Move the drone in the map */
-    //TODO: get the position of the drone
-    map.Move(&map, (int) (10 * 100), (int) (10  * 100));
+    point_t position;
+    estimatorKalmanGetEstimatedPos(&position);
+    map.Move(&map, (int) (position.x * 100.0f), (int) (position.y  * 100.0f));
 
     /* Add the sensor value to the map */
     // TODO: chage to make y_pos concorde to the right dir, ...
     map.AddData(&map,
-                (int) (readings.frontDistance / 10),  /* Front distance in cm */
                 (int) (readings.leftDistance / 10),   /* left distance  in cm */
-                (int) (readings.backDistance / 10),   /* back distance  in cm */
-                (int) (readings.rightDistance / 10)); /* right distance in cm */
+                (int) (readings.frontDistance / 10),  /* Front distance in cm */
+                (int) (readings.rightDistance / 10),  /* right distance in cm */
+                (int) (readings.backDistance / 10));  /* back distance  in cm */
 
     /* If the drone is too close to an obstacle, move away */
-    float minimalDist = 500;
-    if (readings.frontDistance < minimalDist) { debug(1); /*goBackwards(0.01f); stayInPlace();*/ }
-    if (readings.leftDistance  < minimalDist) { debug(2); /*goRight(0.01f);     stayInPlace();*/ }
-    if (readings.backDistance  < minimalDist) { debug(3); /*goForward(0.01f);   stayInPlace();*/ }
-    if (readings.rightDistance < minimalDist) { debug(4); /*goLeft(0.01f);      stayInPlace();*/ }
+    if (readings.frontDistance < minimalDist) { /*goBackwards(0.01f); stayInPlace();*/ }
+    if (readings.leftDistance  < minimalDist) { /*goRight(0.01f);     stayInPlace();*/ }
+    if (readings.backDistance  < minimalDist) { /*goForward(0.01f);   stayInPlace();*/ }
+    if (readings.rightDistance < minimalDist) { /*goLeft(0.01f);      stayInPlace();*/ }
 
     /* Get the best direction to explore, according to potential information gain */
     m_cDir = (CfDir) map.GetBestDir(&map, (MapExplorationDir) m_cDir);
 
     switch (m_cDir) {
-        case FRONT : debug(1); /*goForward(0.02f);  */ break;
+        case FRONT : debug(0); /*goForward(0.02f);  */ break;
         case LEFT  : debug(2); /*goLeft(0.02f);     */ break;
         case BACK  : debug(3); /*goBackwards(0.02f);*/ break;
         case RIGHT : debug(4); /*goRight(0.02f);    */ break;
         default: break;
     }
 
+    //avoidObstacles(readings);
     sleepus(100000);
     
 };
@@ -157,7 +159,8 @@ void init(){
 
     /* Initialization of the map */
 	ExploreMapNew(&map);
-   	map.Construct(&map, (int) (10 * 100), (int) (10 * 100)); // Initial position of the drone, in cm
+    //TODO: get the initial position of the drone
+   	map.Construct(&map, (int) (0 * 100), (int) (0 * 100)); // Initial position of the drone, in cm
 }
 
 void p2pCallbackHandler(P2PPacket *p){

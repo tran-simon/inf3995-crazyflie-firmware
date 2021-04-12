@@ -6,6 +6,7 @@
 #include "configblock.h"
 #include "explore_map.h"
 #include "node_array.h"
+#include "estimator_kalman.h"
 
 /*enum CfExplorationState {
       FORWARD,
@@ -36,10 +37,10 @@ struct RangingDeckReadings{
 };
 
 typedef enum {
-   FRONT = Y_NEG,
-   LEFT  = X_POS,
-   BACK  = Y_POS,
-   RIGHT = X_NEG,
+   FRONT = X_POS,
+   LEFT  = Y_NEG,
+   BACK  = X_NEG,
+   RIGHT = Y_POS,
    STOP  = NONE
 } CfDir;
 

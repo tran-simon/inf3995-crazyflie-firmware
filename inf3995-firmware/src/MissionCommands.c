@@ -1,7 +1,7 @@
 #include "../interface/MissionCommands.h"
 
 void takeOff(){
-    elevateDrone(0.5f);
+    //elevateDrone(0.5f);
     //sleepus(400000);
     init();
     //explore();
