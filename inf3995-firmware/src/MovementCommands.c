@@ -83,11 +83,10 @@ void explore(){
     map.Move(&map, (int) (position.x * 100.0f), (int) (position.y  * 100.0f));
 
     /* Add the sensor value to the map */
-    // TODO: chage to make y_pos concorde to the right dir, ...
     map.AddData(&map,
-                (int) (readings.leftDistance / 10),   /* left distance  in cm */
-                (int) (readings.frontDistance / 10),  /* Front distance in cm */
                 (int) (readings.rightDistance / 10),  /* right distance in cm */
+                (int) (readings.frontDistance / 10),  /* Front distance in cm */
+                (int) (readings.leftDistance / 10),   /* left distance  in cm */
                 (int) (readings.backDistance / 10));  /* back distance  in cm */
 
     /* If the drone is too close to an obstacle, move away */
@@ -160,7 +159,7 @@ void init(){
     /* Initialization of the map */
 	ExploreMapNew(&map);
     //TODO: get the initial position of the drone
-   	map.Construct(&map, (int) (0 * 100), (int) (0 * 100)); // Initial position of the drone, in cm
+   	map.Construct(&map, (int) (5 * 100), (int) (5 * 100)); // Initial position of the drone, in cm
 }
 
 void p2pCallbackHandler(P2PPacket *p){
