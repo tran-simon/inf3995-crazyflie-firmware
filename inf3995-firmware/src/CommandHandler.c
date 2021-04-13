@@ -9,26 +9,26 @@ struct Information activateCommand(char command){
     case 't':
         takeOff();
         response.type = 't';
-        response.value = 1;
+        response.value1 = 1;
         break;
     //Explore
     case 'e':
         exploration();
         response.type = 't';
-        response.value = 1;
+        response.value1 = 1;
         break;
     // Land
     case 'l':
         land();
         response.type = 'l';
-        response.value = 0;
+        response.value1 = 0;
         break;
 
     // Return to base
     case 'r':
         returnToBase();
         response.type = 'r';
-        response.value = 0;
+        response.value1 = 0;
         break;
 
     default:
