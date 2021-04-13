@@ -3,7 +3,7 @@
 void takeOff(){
     init();
     sleepus(400000);
-    elevateDrone(0.6f);
+    elevateDrone(0.5f);
     sleepus(500000);
     //explore();
     //debug(4);
