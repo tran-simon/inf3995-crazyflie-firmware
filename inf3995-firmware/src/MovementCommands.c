@@ -87,7 +87,6 @@ void explore(){
     map.Move(&map, (int) (xValue * 100.0f), (int) (yValue * 100.0f));
 
     /* Add the sensor value to the map */
-    // TODO: chage to make y_pos concorde to the right dir, ...
     map.AddData(&map,
                 (int) (readings.rightDistance / 10),   /* left distance  in cm */
                 (int) (readings.frontDistance / 10),  /* Front distance in cm */
