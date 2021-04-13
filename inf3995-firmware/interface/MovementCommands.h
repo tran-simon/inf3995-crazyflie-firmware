@@ -38,9 +38,9 @@ struct RangingDeckReadings{
 
 typedef enum {
    FRONT = X_POS,
-   LEFT  = Y_NEG,
+   LEFT  = Y_POS,
    BACK  = X_NEG,
-   RIGHT = Y_POS,
+   RIGHT = Y_NEG,
    STOP  = NONE
 } CfDir;
 
