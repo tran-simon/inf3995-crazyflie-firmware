@@ -1,9 +1,10 @@
 #include "../interface/MissionCommands.h"
 
 void takeOff(){
-    //elevateDrone(0.5f);
-    //sleepus(400000);
     init();
+    sleepus(400000);
+    elevateDrone(0.6f);
+    sleepus(500000);
     //explore();
     //debug(4);
 };
@@ -21,6 +22,7 @@ void returnToBase(){
 void exploration() {
     // Call explore function
     explore();
+    //test();
 }
 
 
