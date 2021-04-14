@@ -95,24 +95,24 @@ void explore(){
 
     m_cDir = (CfDir) map.GetBestDir(&map, (MapExplorationDir) m_cDir);
     /* If the drone is too close to an obstacle, move away */
-    if (readings.frontDistance < minimalDist) { goBackwards(0.05f); stayInPlace(); }
-    if (readings.leftDistance  < minimalDist) { goRight(0.05f);    stayInPlace(); }
-    if (readings.backDistance  < minimalDist) { goForward(0.05f);    stayInPlace(); }
-    if (readings.rightDistance < minimalDist) { goLeft(0.05f);     stayInPlace(); }
+    if (readings.frontDistance < minimalDist) { goBackwards(0.05f); stayInPlace(); m_cDir = BACK; }
+    if (readings.leftDistance  < minimalDist) { goRight(0.05f);    stayInPlace(); m_cDir = RIGHT;}
+    if (readings.backDistance  < minimalDist) { goForward(0.05f);    stayInPlace(); m_cDir = FRONT;}
+    if (readings.rightDistance < minimalDist) { goLeft(0.05f);     stayInPlace(); m_cDir = LEFT;}
 
     /* Get the best direction to explore, according to potential information gain */
     //m_cDir = (CfDir) map.GetBestDir(&map, (MapExplorationDir) m_cDir);
 
     switch (m_cDir) {
-        case FRONT : goForward(0.06f);break;
-        case LEFT  : goLeft(0.06f);break;
-        case BACK  : goBackwards(0.06f);break;
-        case RIGHT : goRight(0.06f);break;
+        case FRONT : goForward(0.01f);break;
+        case LEFT  : goRight(0.01f);break;
+        case BACK  : goForward(-0.01f);break;
+        case RIGHT : goRight(-0.01f);break;
         default: break;
     }
 
     //avoidObstacles(readings);
-    sleepus(100000);
+    //sleepus(100000);
     
 };
 
