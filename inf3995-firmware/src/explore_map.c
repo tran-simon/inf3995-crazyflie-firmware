@@ -42,7 +42,7 @@ extern void mConstructor (ExploreMap *obj, int initX, int initY) {
     obj->discovered->Init(obj->discovered, 16);
 
     /*TODO: add base pos estimation*/
-    obj->mBase = (Node) {48,48,1,1};
+    obj->mBase = (Node) {initX,initY,1,1};
 }
 
 /* Move the drone on the map */
