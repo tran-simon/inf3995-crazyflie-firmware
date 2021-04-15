@@ -70,36 +70,48 @@ void avoidObstacles(struct RangingDeckReadings readings){
 }
 
 void explore(){
+    static int step = 0;
+
     struct RangingDeckReadings readings;
     readings.frontDistance = getFrontDistance();
     readings.backDistance = getBackDistance();
     readings.leftDistance = getLeftDistance();
     readings.rightDistance = getRightDistance();
 
-    /* Move the drone in the map */
+    /* Move the drone in the map 
     float xValue = 0.0f;
     float yValue = 0.0f;
     logVarId_t xID = logGetVarId("stateEstimate", "x");
     logVarId_t yID = logGetVarId("stateEstimate", "y");
     xValue = logGetFloat(xID);
     yValue = logGetFloat(yID);
-    map.Move(&map, (int) (xValue * 100.0f), (int) (yValue * 100.0f));
+    map.Move(&map, (int) (xValue * 100.0f), (int) (yValue * 100.0f));*/
 
     /* Add the sensor value to the map */
-    map.AddData(&map,
-                (int) (readings.leftDistance / 10),   /* left distance  in cm */
-                (int) (readings.frontDistance / 10),  /* Front distance in cm */
-                (int) (readings.rightDistance / 10),  /* right distance in cm */
-                (int) (readings.backDistance / 10));  /* back distance  in cm */
+    //map.AddData(&map,
+    //            (int) (readings.leftDistance / 10),   /* left distance  in cm */
+    //            (int) (readings.frontDistance / 10),  /* Front distance in cm */
+    //            (int) (readings.rightDistance / 10),  /* right distance in cm */
+    //            (int) (readings.backDistance / 10));  /* back distance  in cm */
 
     /* Get the best direction to explore, according to potential information gain */
-    m_cDir = (CfDir) map.GetBestDir(&map, (MapExplorationDir) m_cDir);
+    //m_cDir = (CfDir) map.GetBestDir(&map, (MapExplorationDir) m_cDir);
 
     /* If the drone is too close to an obstacle, move away */
     avoidObstacles(readings);
 
+    if (step % 100 == 0) {
+        if (m_cDir == FRONT || m_cDir == BACK) {
+            m_cDir = (readings.leftDistance > readings.rightDistance)? LEFT : RIGHT;
+        } else {
+            m_cDir = (readings.frontDistance > readings.backDistance)? FRONT : BACK;
+        }
+    }
+
     /* Move the drone in the direction m_cDir */
-    selectMovingDirection();    
+    selectMovingDirection(); 
+
+    step++;   
 };
 
 void goToBase() {

@@ -186,7 +186,7 @@ extern void mBuildFlowMap(ExploreMap *obj) {
     obj->distMap[obj->mBase.x][obj->mBase.y] = obj->mBase.distance;
 
     // We verify that the drone isn't out of the map
-    if(obj->currX > -1 && obj->currX < MAP_SIZE && obj->currY > -1 && obj->currY < MAP_SIZE) {
+    // if(obj->currX > -1 && obj->currX < MAP_SIZE && obj->currY > -1 && obj->currY < MAP_SIZE) {
         // We run the Wave Propagation algorithm until a clear path is found between the drone
         // and the current base.
 
@@ -278,7 +278,7 @@ extern void mBuildFlowMap(ExploreMap *obj) {
                 obj->discovered->Init(obj->discovered, 16);
             }
         }
-    }
+    //}
 }
 
 extern MapExplorationDir mNextNode(ExploreMap *obj, int y_neg, int x_pos, int y_pos, int x_neg) {
