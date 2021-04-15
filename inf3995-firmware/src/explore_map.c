@@ -58,42 +58,42 @@ extern void mAddData (ExploreMap *obj, int y_neg, int x_pos, int y_pos, int x_ne
     int i;
     
     /* Fill the map with y_neg */
-    nEmpty = (y_neg != -2)? y_neg / obj->mapResolutionCM : 200 / obj->mapResolutionCM;
+    nEmpty = (y_neg < 200)? y_neg / obj->mapResolutionCM : 200 / obj->mapResolutionCM;
     for (i = obj->currY; i >= obj->currY - nEmpty && i > 0; i--){
         obj->map[obj->currX][i] = 1;
         if (i > obj->currY - nEmpty) { obj->distMap[obj->currX][i] = 0; }
     }
-    if (y_neg != -2) {
+    if (y_neg < 200) {
         obj->map[obj->currX][i] = 2;
     }
 
     /* Fill the map with x_pos */
-    nEmpty = (x_pos != -2)? x_pos / obj->mapResolutionCM : 200 / obj->mapResolutionCM;
+    nEmpty = (x_pos < 200)? x_pos / obj->mapResolutionCM : 200 / obj->mapResolutionCM;
     for (i = obj->currX; i <= obj->currX + nEmpty && i < MAP_SIZE - 1; i++){
         obj->map[i][obj->currY] = 1;  
         if (i < obj->currX + nEmpty) { obj->distMap[i][obj->currY] = 0; }  
     }
-    if (x_pos != -2) {
+    if (x_pos < 200) {
         obj->map[i][obj->currY] = 2;
     }
 
     /* Fill the map with y_pos */
-    nEmpty = (y_pos != -2)? y_pos / obj->mapResolutionCM : 200 / obj->mapResolutionCM;
+    nEmpty = (y_pos < 200)? y_pos / obj->mapResolutionCM : 200 / obj->mapResolutionCM;
     for (i = obj->currY; i <= obj->currY + nEmpty && i < MAP_SIZE - 1; i++){
         obj->map[obj->currX][i] = 1;
         if (i < obj->currY + nEmpty) { obj->distMap[obj->currX][i] = 0; }
     }
-    if (y_pos != -2) {
+    if (y_pos < 200) {
         obj->map[obj->currX][i] = 2;
     }
 
     /* Fill the map with x_neg */
-    nEmpty = (x_neg != -2)? x_neg / obj->mapResolutionCM : 200 / obj->mapResolutionCM;
+    nEmpty = (x_neg < 200)? x_neg / obj->mapResolutionCM : 200 / obj->mapResolutionCM;
     for (i = obj->currX; i >= obj->currX - nEmpty && i > 0; i--){
         obj->map[i][obj->currY] = 1;
         if (i > obj->currX - nEmpty) { obj->distMap[i][obj->currY] = 0; }
     }
-    if (x_neg != -2) {
+    if (x_neg < 200) {
         obj->map[i][obj->currY] = 2;
     }
 }
@@ -317,10 +317,10 @@ extern MapExplorationDir mNextNode(ExploreMap *obj, int y_neg, int x_pos, int y_
         
         // We make sure not to hit a wall
         int minimalDist = 9;
-        if (y_pos < minimalDist && y_pos != -2) return Y_NEG;
-        if (x_neg < minimalDist && x_neg != -2) return X_POS;
-        if (y_neg < minimalDist && y_neg != -2) return Y_POS;
-        if (x_pos < minimalDist && x_pos != -2) return X_NEG;
+        if (y_pos < minimalDist && y_pos < 200) return Y_NEG;
+        if (x_neg < minimalDist && x_neg < 200) return X_POS;
+        if (y_neg < minimalDist && y_neg < 200) return Y_POS;
+        if (x_pos < minimalDist && x_pos < 200) return X_NEG;
     }
     return dir;
 }
