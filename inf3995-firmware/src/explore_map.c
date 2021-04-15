@@ -42,7 +42,8 @@ extern void mConstructor (ExploreMap *obj, int initX, int initY) {
     obj->discovered->Init(obj->discovered, 16);
 
     /*TODO: add base pos estimation*/
-    obj->mBase = (Node) {48,48,1,1};
+    obj->mBase = (Node) {(int) initX / obj->mapResolutionCM - 1,
+                        (int) initY / obj->mapResolutionCM - 1, 1, 1};
 }
 
 /* Move the drone on the map */
@@ -57,42 +58,42 @@ extern void mAddData (ExploreMap *obj, int y_neg, int x_pos, int y_pos, int x_ne
     int i;
     
     /* Fill the map with y_neg */
-    nEmpty = (y_neg != -2)? y_neg / obj->mapResolutionCM : 200 / obj->mapResolutionCM;
+    nEmpty = (y_neg < 200)? y_neg / obj->mapResolutionCM : 200 / obj->mapResolutionCM;
     for (i = obj->currY; i >= obj->currY - nEmpty && i > 0; i--){
         obj->map[obj->currX][i] = 1;
         if (i > obj->currY - nEmpty) { obj->distMap[obj->currX][i] = 0; }
     }
-    if (y_neg != -2) {
+    if (y_neg < 200) {
         obj->map[obj->currX][i] = 2;
     }
 
     /* Fill the map with x_pos */
-    nEmpty = (x_pos != -2)? x_pos / obj->mapResolutionCM : 200 / obj->mapResolutionCM;
+    nEmpty = (x_pos < 200)? x_pos / obj->mapResolutionCM : 200 / obj->mapResolutionCM;
     for (i = obj->currX; i <= obj->currX + nEmpty && i < MAP_SIZE - 1; i++){
         obj->map[i][obj->currY] = 1;  
         if (i < obj->currX + nEmpty) { obj->distMap[i][obj->currY] = 0; }  
     }
-    if (x_pos != -2) {
+    if (x_pos < 200) {
         obj->map[i][obj->currY] = 2;
     }
 
     /* Fill the map with y_pos */
-    nEmpty = (y_pos != -2)? y_pos / obj->mapResolutionCM : 200 / obj->mapResolutionCM;
+    nEmpty = (y_pos < 200)? y_pos / obj->mapResolutionCM : 200 / obj->mapResolutionCM;
     for (i = obj->currY; i <= obj->currY + nEmpty && i < MAP_SIZE - 1; i++){
         obj->map[obj->currX][i] = 1;
         if (i < obj->currY + nEmpty) { obj->distMap[obj->currX][i] = 0; }
     }
-    if (y_pos != -2) {
+    if (y_pos < 200) {
         obj->map[obj->currX][i] = 2;
     }
 
     /* Fill the map with x_neg */
-    nEmpty = (x_neg != -2)? x_neg / obj->mapResolutionCM : 200 / obj->mapResolutionCM;
+    nEmpty = (x_neg < 200)? x_neg / obj->mapResolutionCM : 200 / obj->mapResolutionCM;
     for (i = obj->currX; i >= obj->currX - nEmpty && i > 0; i--){
         obj->map[i][obj->currY] = 1;
         if (i > obj->currX - nEmpty) { obj->distMap[i][obj->currY] = 0; }
     }
-    if (x_neg != -2) {
+    if (x_neg < 200) {
         obj->map[i][obj->currY] = 2;
     }
 }
@@ -185,7 +186,7 @@ extern void mBuildFlowMap(ExploreMap *obj) {
     obj->distMap[obj->mBase.x][obj->mBase.y] = obj->mBase.distance;
 
     // We verify that the drone isn't out of the map
-    if(obj->currX > -1 && obj->currX < MAP_SIZE && obj->currY > -1 && obj->currY < MAP_SIZE) {
+    // if(obj->currX > -1 && obj->currX < MAP_SIZE && obj->currY > -1 && obj->currY < MAP_SIZE) {
         // We run the Wave Propagation algorithm until a clear path is found between the drone
         // and the current base.
 
@@ -277,7 +278,7 @@ extern void mBuildFlowMap(ExploreMap *obj) {
                 obj->discovered->Init(obj->discovered, 16);
             }
         }
-    }
+    //}
 }
 
 extern MapExplorationDir mNextNode(ExploreMap *obj, int y_neg, int x_pos, int y_pos, int x_neg) {
@@ -316,10 +317,10 @@ extern MapExplorationDir mNextNode(ExploreMap *obj, int y_neg, int x_pos, int y_
         
         // We make sure not to hit a wall
         int minimalDist = 9;
-        if (y_pos < minimalDist && y_pos != -2) return Y_NEG;
-        if (x_neg < minimalDist && x_neg != -2) return X_POS;
-        if (y_neg < minimalDist && y_neg != -2) return Y_POS;
-        if (x_pos < minimalDist && x_pos != -2) return X_NEG;
+        if (y_pos < minimalDist && y_pos < 200) return Y_NEG;
+        if (x_neg < minimalDist && x_neg < 200) return X_POS;
+        if (y_neg < minimalDist && y_neg < 200) return Y_POS;
+        if (x_pos < minimalDist && x_pos < 200) return X_NEG;
     }
     return dir;
 }

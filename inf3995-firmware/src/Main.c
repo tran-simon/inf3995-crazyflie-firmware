@@ -24,26 +24,35 @@ void appMain()
 
 	while(1){
 		if (appchannelReceivePacket(&command, sizeof(command), 100)) {
-			if(command != 't' && command != 'l' && command != 'f' && command != 'r'){
+			if (command != 't' && command != 'l' && command != 'f' && command != 'r'){
 				// send info 
 				response = getStats(command);
 				appchannelSendPacket(&response, sizeof(response));
 			}
-			else if(command == 't'){
+			else if (command == 't') {
 				activateCommand('t');
 				// switch to explore state
 				state = 'e';
 			}
-			else{
+			else if (command == 'l') {
+				state = 'r';
+			}
+			else {
 				// switch to other state
 				state = 'o';
 				response = activateCommand(command);
 			}
 		}
 
-		switch(state){
+		switch (state){
 			case 'e': {
 				activateCommand('e');
+				break;
+			}
+			case 'r': {
+				if (activateCommand('r').value1) {
+					state = 'o';
+				}
 				break;
 			}
 			case 'o': {

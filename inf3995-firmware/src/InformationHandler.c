@@ -34,7 +34,7 @@ struct Information getStats(char command){
 
     //Get the state
     case 's':
-        if(getSpeed(state) >= 0.02f) {
+        if(getSpeed(state) >= 0.01f) {
             response.value1 = 1.0f;
             
         }
@@ -62,10 +62,10 @@ struct Information getStats(char command){
         break;
     
     case 'm':;
-        point_t position;
-        estimatorKalmanGetEstimatedPos(&position);
-        response.value1 = position.x;
-        response.value2 = position.y;
+        logVarId_t yID = logGetVarId("stateEstimate", "y");
+        logVarId_t xID = logGetVarId("stateEstimate", "x");
+        response.value1 = logGetFloat(xID);
+        response.value2 = logGetFloat(yID);
         response.value3 = getFrontDistance();
         response.value4 = getBackDistance();
         response.value5 = getLeftDistance();

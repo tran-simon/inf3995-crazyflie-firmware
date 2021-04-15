@@ -19,8 +19,8 @@ void land();
 /**
  * @brief Land the drone at the base of operations
  *
- * @return void
+ * @return bool whether the drone is landing
  */
-void returnToBase();
+bool returnToBase();
 
 void exploration();

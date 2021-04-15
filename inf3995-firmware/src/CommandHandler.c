@@ -26,9 +26,8 @@ struct Information activateCommand(char command){
 
     // Return to base
     case 'r':
-        returnToBase();
+        response.value1 = returnToBase() ? 1 : 0;
         response.type = 'r';
-        response.value1 = 0;
         break;
 
     default:
