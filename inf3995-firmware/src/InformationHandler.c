@@ -34,7 +34,7 @@ struct Information getStats(char command){
 
     //Get the state
     case 's':
-        if(getSpeed(state) >= 0.02f) {
+        if(getSpeed(state) >= 0.01f) {
             response.value1 = 1.0f;
             
         }

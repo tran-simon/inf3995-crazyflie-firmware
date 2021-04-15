@@ -50,7 +50,9 @@ void appMain()
 				break;
 			}
 			case 'r': {
-				activateCommand('r');
+				if (activateCommand('r').value1) {
+					state = 'o';
+				}
 				break;
 			}
 			case 'o': {

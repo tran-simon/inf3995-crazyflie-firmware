@@ -114,39 +114,57 @@ void explore(){
     step++;   
 };
 
-void goToBase() {
+bool goToBase() {
     struct RangingDeckReadings readings;
     readings.frontDistance = getFrontDistance();
     readings.backDistance = getBackDistance();
     readings.leftDistance = getLeftDistance();
     readings.rightDistance = getRightDistance();
     
-    /* Move the drone in the map */
-    float xValue = 0.0f;
-    float yValue = 0.0f;
-    logVarId_t xID = logGetVarId("stateEstimate", "x");
-    logVarId_t yID = logGetVarId("stateEstimate", "y");
-    xValue = logGetFloat(xID);
-    yValue = logGetFloat(yID);
-    map.Move(&map, (int) (xValue * 100.0f), (int) (yValue * 100.0f));
 
-    if (map.distMap[map.mBase.x][map.mBase.y] == 0) {
-        map.BuildFlow(&map);
-    }
-
-    if (getRSSI() <= 36) {
+    if (getRSSI() <= 36.0f) {
         lowerDrone(0.0f);
+        return true;
     }
 
-    // We get the next direction
-    m_cDir = (CfDir) map.NextNode(&map,  
-                (int) (readings.leftDistance / 10),   /* left distance  in cm */
-                (int) (readings.frontDistance / 10),  /* Front distance in cm */
-                (int) (readings.rightDistance / 10),  /* right distance in cm */
-                (int) (readings.backDistance / 10));  /* back distance  in cm */
+
+    if (readings.backDistance >= 300.0f) {
+        m_cDir = BACK;
+    }
+    else if (readings.leftDistance >= 300.0f) {
+        m_cDir = LEFT;
+    }
+    else {
+        m_cDir = RIGHT;
+    }
+
+    return false;
+    // /* Move the drone in the map */
+    // float xValue = 0.0f;
+    // float yValue = 0.0f;
+    // logVarId_t xID = logGetVarId("stateEstimate", "x");
+    // logVarId_t yID = logGetVarId("stateEstimate", "y");
+    // xValue = logGetFloat(xID);
+    // yValue = logGetFloat(yID);
+    // map.Move(&map, (int) (xValue * 100.0f), (int) (yValue * 100.0f));
+
+    // if (map.distMap[map.mBase.x][map.mBase.y] == 0) {
+    //     map.BuildFlow(&map);
+    // }
+
+    // if (getRSSI() <= 36) {
+    //     lowerDrone(0.0f);
+    // }
+
+    // // We get the next direction
+    // m_cDir = (CfDir) map.NextNode(&map,  
+    //             (int) (readings.leftDistance / 10),   /* left distance  in cm */
+    //             (int) (readings.frontDistance / 10),  /* Front distance in cm */
+    //             (int) (readings.rightDistance / 10),  /* right distance in cm */
+    //             (int) (readings.backDistance / 10));  /* back distance  in cm */
 
     /* Move the drone in the direction m_cDir */
-    selectMovingDirection();    
+    //selectMovingDirection();    
 }
 
 void test(){

@@ -135,9 +135,9 @@ void explore();
 /**
  * @brief This function makes the drone go back to its base by selecting the next direction that
  * could make the drone closer to the base.
- * @return void
+ * @return bool whether the drone has started landing
  */
-void goToBase();
+bool goToBase();
 
 /**
  * @brief This function stabilize the drone by making it stay in place.

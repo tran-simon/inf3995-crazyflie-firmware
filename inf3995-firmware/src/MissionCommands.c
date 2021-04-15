@@ -14,9 +14,9 @@ void land(){
     //debug(4);
 };
 
-void returnToBase(){
-    //lowerDrone(0.0f);
-    goToBase();
+bool returnToBase(){
+    return goToBase();
+    //debug(4);
 };
 
 void exploration() {

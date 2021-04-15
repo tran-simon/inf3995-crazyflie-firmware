@@ -33,10 +33,12 @@ float getRSSI(){
 
 float getSpeed(state_t state){
     float speed = 0.0f;
+    logVarId_t idVx = logGetVarId("stateEstimate", "vx");
+    logVarId_t idVy = logGetVarId("stateEstimate", "vy");
+    float vx = logGetFloat(idVx);
+    float vy = logGetFloat(idVy);
 
-    if(!isnanf(state.velocity.x) && !isnanf(state.velocity.y) && !isnanf(state.velocity.z)) {
-        speed = sqrtf(powf(state.velocity.x, 2) + powf(state.velocity.y, 2) + powf(state.velocity.z, 2));
-    }
+    speed = sqrtf(powf(vx, 2) + powf(vy, 2));
 
     return speed;
 }
