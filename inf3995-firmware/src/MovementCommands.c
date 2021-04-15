@@ -123,15 +123,10 @@ bool goToBase() {
     readings.rightDistance = getRightDistance();
     
 
-    if (getRSSI() <= 36.0f) {
-        if (debounce <= 8){
+    if (getRSSI() <= 35.0f) {
+        if (debounce <= 5){
             debounce += 1;
-            if (m_cDir == BACK) {
-                goForward(0.05f);
-            } 
-            else if (m_cDir == LEFT) {
-                goRight(0.05f);
-            }
+            avoidObstacles(readings);
             return false;
         }
         lowerDrone(0.0f);
@@ -142,10 +137,10 @@ bool goToBase() {
     }
 
 
-    if (readings.backDistance >= 400.0f) {
+    if (readings.backDistance >= 500.0f) {
         m_cDir = BACK;
     }
-    else if (readings.leftDistance >= 400.0f) {
+    else if (readings.leftDistance >= 500.0f) {
         m_cDir = LEFT;
     }
     else {
