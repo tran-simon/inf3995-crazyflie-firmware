@@ -36,7 +36,9 @@ struct Information getStats(char command){
     case 's':
         if(getSpeed(state) >= 0.01f) {
             response.value1 = 1.0f;
-            
+        }
+        if(sitAwTuDetected()){
+            response.value1 = 2.0f;
         }
         else {
             response.value1 = 0.0f;
