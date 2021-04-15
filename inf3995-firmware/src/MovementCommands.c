@@ -87,9 +87,9 @@ void explore(){
 
     /* Add the sensor value to the map */
     map.AddData(&map,
-                (int) (readings.rightDistance / 10),  /* right distance in cm */
-                (int) (readings.frontDistance / 10),  /* Front distance in cm */
                 (int) (readings.leftDistance / 10),   /* left distance  in cm */
+                (int) (readings.frontDistance / 10),  /* Front distance in cm */
+                (int) (readings.rightDistance / 10),  /* right distance in cm */
                 (int) (readings.backDistance / 10));  /* back distance  in cm */
 
     /* Get the best direction to explore, according to potential information gain */
@@ -128,9 +128,9 @@ void goToBase() {
 
     // We get the next direction
     m_cDir = (CfDir) map.NextNode(&map,  
-                (int) (readings.rightDistance / 10),  /* right distance in cm */
-                (int) (readings.frontDistance / 10),  /* Front distance in cm */
                 (int) (readings.leftDistance / 10),   /* left distance  in cm */
+                (int) (readings.frontDistance / 10),  /* Front distance in cm */
+                (int) (readings.rightDistance / 10),  /* right distance in cm */
                 (int) (readings.backDistance / 10));  /* back distance  in cm */
 
     /* Move the drone in the direction m_cDir */

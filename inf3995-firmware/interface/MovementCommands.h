@@ -48,16 +48,16 @@ struct RangingDeckReadings{
  * @brief Enum that represent drone direction of mouvement.
  * 
  * @param FRONT = X_POS = 0
- * @param LEFT  = Y_POS = 2
+ * @param LEFT  = Y_NEG = 3
  * @param BACK  = X_NEG = 1
- * @param RIGHT = Y_NEG = 3
+ * @param RIGHT = Y_POS = 2
  * @param STOP  = NONE  = 4
  */
 typedef enum {
    FRONT = X_POS,
-   LEFT  = Y_POS,
+   LEFT  = Y_NEG,
    BACK  = X_NEG,
-   RIGHT = Y_NEG,
+   RIGHT = Y_POS,
    STOP  = NONE
 } CfDir;
 
