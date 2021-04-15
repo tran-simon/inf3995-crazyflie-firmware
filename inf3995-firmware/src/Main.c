@@ -34,7 +34,7 @@ void appMain()
 				// switch to explore state
 				state = 'e';
 			}
-			else if (command == 'l') {
+			else if (command == 'r') {
 				state = 'r';
 			}
 			else {

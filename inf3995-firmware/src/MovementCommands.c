@@ -3,12 +3,14 @@
 /* Declaration of tha map */
 static ExploreMap map;
 static CfDir m_cDir = FRONT;
+static int step = 0;
+static int debounce = 0;
 
 //static bool isP2PSender = false;
 //static int counter = 0;
 //static bool testing = false;
 //static float previousDist = 0.0f;
-static float minimalDist = 350.0f;
+static float minimalDist = 400.0f;
 
 void debug(int del){
     for (int i=0; i< 20; ++i){
@@ -53,9 +55,9 @@ void lowerDrone(float height){
 void selectMovingDirection() {
     switch (m_cDir) {
         case FRONT : goForward(0.05f);break;
-        case LEFT  : goRight(0.05f);break;
-        case BACK  : goForward(-0.05f);break;
-        case RIGHT : goRight(-0.05f);break;
+        case LEFT  : goLeft(0.05f);break;
+        case BACK  : goBackwards(0.05f);break;
+        case RIGHT : goRight(0.05f);break;
         default: break;
     }
 
@@ -70,7 +72,6 @@ void avoidObstacles(struct RangingDeckReadings readings){
 }
 
 void explore(){
-    static int step = 0;
 
     struct RangingDeckReadings readings;
     readings.frontDistance = getFrontDistance();
@@ -100,7 +101,7 @@ void explore(){
     /* If the drone is too close to an obstacle, move away */
     avoidObstacles(readings);
 
-    if (step % 100 == 0) {
+    if (step % 80 == 0) {
         if (m_cDir == FRONT || m_cDir == BACK) {
             m_cDir = (readings.leftDistance > readings.rightDistance)? LEFT : RIGHT;
         } else {
@@ -123,20 +124,36 @@ bool goToBase() {
     
 
     if (getRSSI() <= 36.0f) {
+        if (debounce <= 8){
+            debounce += 1;
+            if (m_cDir == BACK) {
+                goForward(0.05f);
+            } 
+            else if (m_cDir == LEFT) {
+                goRight(0.05f);
+            }
+            return false;
+        }
         lowerDrone(0.0f);
+        debounce = 0;
         return true;
+    } else {
+        debounce = 0;
     }
 
 
-    if (readings.backDistance >= 300.0f) {
+    if (readings.backDistance >= 400.0f) {
         m_cDir = BACK;
     }
-    else if (readings.leftDistance >= 300.0f) {
+    else if (readings.leftDistance >= 400.0f) {
         m_cDir = LEFT;
     }
     else {
         m_cDir = RIGHT;
     }
+    avoidObstacles(readings);
+    /* Move the drone in the direction m_cDir */
+    selectMovingDirection();    
 
     return false;
     // /* Move the drone in the map */
@@ -162,9 +179,6 @@ bool goToBase() {
     //             (int) (readings.frontDistance / 10),  /* Front distance in cm */
     //             (int) (readings.rightDistance / 10),  /* right distance in cm */
     //             (int) (readings.backDistance / 10));  /* back distance  in cm */
-
-    /* Move the drone in the direction m_cDir */
-    //selectMovingDirection();    
 }
 
 void test(){
