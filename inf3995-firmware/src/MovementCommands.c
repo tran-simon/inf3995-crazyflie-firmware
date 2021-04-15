@@ -59,7 +59,7 @@ void selectMovingDirection() {
         default: break;
     }
 
-    sleepus(100000);
+    //sleepus(100000);
 }
 
 void avoidObstacles(struct RangingDeckReadings readings){
@@ -122,7 +122,7 @@ void goToBase() {
         map.BuildFlow(&map);
     }
 
-    if (map.currX == map.mBase.x && map.currY == map.mBase.y) {
+    if (getRSSI() <= 36) {
         lowerDrone(0.0f);
     }
 
