@@ -214,6 +214,9 @@ PROJ_OBJ += multiranger.o
 PROJ_OBJ += lighthouse.o
 PROJ_OBJ += activeMarkerDeck.o
 
+
+
+
 # Uart2 Link for CRTP communication is not compatible with decks using uart2
 ifeq ($(UART2_LINK), 1)
 CFLAGS += -DUART2_LINK_COMM
@@ -298,7 +301,7 @@ INCLUDES += -I$(CRAZYFLIE_BASE)/vendor/libdw1000/inc
 INCLUDES += -I$(LIB)/FatFS
 INCLUDES += -I$(LIB)/vl53l1
 INCLUDES += -I$(LIB)/vl53l1/core/inc
-
+INCLUDES += -I$(CRAZYFLIE_BASE)/inf3995-firmware/interface
 CFLAGS += -g3
 ifeq ($(DEBUG), 1)
   CFLAGS += -O0 -DDEBUG

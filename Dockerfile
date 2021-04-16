@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
     software-properties-common \
     make \
     curl \
+    rake \
     && rm -rf /var/lib/apt/lists/*
 
 # Install crazyflie dependencies
@@ -43,7 +44,7 @@ RUN git clone --depth 1 --recurse-submodule https://github.com/bitcraze/crazyfli
 
 COPY . crazyflie-firmware
 
-RUN git clone https://github.com/bitcraze/crazyflie-clients-python.git
+RUN git clone --depth 1 --branch 2021.1 https://github.com/bitcraze/crazyflie-clients-python.git
 
 COPY clientSetup.py crazyflie-clients-python/setup.py
 
@@ -54,7 +55,7 @@ RUN cd crazyflie-clients-python &&\
 
 WORKDIR /root/crazyflie-firmware/inf3995-firmware
 
-RUN make
+#RUN make
 
 WORKDIR ../server
 

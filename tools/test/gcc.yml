@@ -49,6 +49,8 @@ compiler:
       - 'vendor/CMSIS/CMSIS/Include/'
       - 'src/lib/CMSIS/STM32F4xx/Include'
       - 'src/lib/STM32F4xx_StdPeriph_Driver/inc'
+      - 'inf3995-firmware/interface'
+      - 'inf3995-firmware/src'
   defines:
     prefix: '-D'
     items:

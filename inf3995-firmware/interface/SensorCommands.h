@@ -1,3 +1,6 @@
+#ifndef __SENSOR_COMMANDS__
+#define __SENSOR_COMMANDS__
+
 #include "log.h"
 #include "param.h"
 #include "pm.h"
@@ -59,3 +62,5 @@ float getSpeed(state_t state);
  * @return the point value
  */
 point_t getPoint(state_t state);
+
+#endif /* __SENSOR_COMMANDS__ */
