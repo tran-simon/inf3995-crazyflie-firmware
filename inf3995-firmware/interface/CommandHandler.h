@@ -1,6 +1,7 @@
 #include "Info.h"
 #include "MissionCommands.h"
 
-void setHoverSetpoint(setpoint_t *setpoint, float vx, float vy, float z, float yawrate);
-
+/**
+ * @brief Activates the appropriate command by calling missionCommands functions
+ */
 struct Information activateCommand(char command);

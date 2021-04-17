@@ -15,6 +15,9 @@
 
 void appMain()
 {
+	/****************************************/
+	/*           Initialization             */
+	/****************************************/
 	paramVarId_t paramIdCommanderEnHighLevel = paramGetVarId("commander", "enHighLevel");
   	paramSetInt(paramIdCommanderEnHighLevel, 1);
 
@@ -22,10 +25,13 @@ void appMain()
 	struct Information response;
 	char state = 'o';
 
+	/****************************************/
+	/*             Maint Loop               */
+	/****************************************/
 	while(1){
 		if (appchannelReceivePacket(&command, sizeof(command), 100)) {
 			if (command != 't' && command != 'l' && command != 'f' && command != 'r'){
-				// send info 
+				// send info
 				response = getStats(command);
 				appchannelSendPacket(&response, sizeof(response));
 			}
@@ -35,6 +41,7 @@ void appMain()
 				state = 'e';
 			}
 			else if (command == 'r') {
+				// switch to return to base state
 				state = 'r';
 			}
 			else {
@@ -43,19 +50,21 @@ void appMain()
 				response = activateCommand(command);
 			}
 		}
-
 		switch (state){
 			case 'e': {
+				// explore state
 				activateCommand('e');
 				break;
 			}
 			case 'r': {
+				// return to base state
 				if (activateCommand('r').value1) {
 					state = 'o';
 				}
 				break;
 			}
 			case 'o': {
+				//other state -- Do nothing
 				break;
 			}
 		}

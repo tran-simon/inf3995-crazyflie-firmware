@@ -30,26 +30,14 @@ float getRSSI(){
     return(logGetFloat(idRSSI));
 }
 
-
-float getSpeed(state_t state){
+float getSpeed(){
     float speed = 0.0f;
     logVarId_t idVx = logGetVarId("stateEstimate", "vx");
     logVarId_t idVy = logGetVarId("stateEstimate", "vy");
     float vx = logGetFloat(idVx);
     float vy = logGetFloat(idVy);
 
+    // Calculate the average speed by combining speed in x and y
     speed = sqrtf(powf(vx, 2) + powf(vy, 2));
-
     return speed;
-}
-
-point_t getPoint(state_t state){
-    point_t point;
-
-    point.x = state.position.x + getFrontDistance();
-    point.y = state.position.y;
-    point.z = state.position.z;
-    point.timestamp = state.position.timestamp;
-
-    return point;
 }
