@@ -1,28 +1,13 @@
 #include "../interface/MovementCommands.h"
 
-/* Declaration of tha map */
-static ExploreMap map;
+/* Declaration of global variables*/
 static CfDir m_cDir = FRONT;
 static int step = 0;
 static int debounce = 0;
-
-//static bool isP2PSender = false;
-//static int counter = 0;
-//static bool testing = false;
-//static float previousDist = 0.0f;
-static float minimalDist = 400.0f;
-
-void debug(int del){
-    for (int i=0; i< 20; ++i){
-        ledSet(del, true);
-        sleepus(1000);
-        ledSet(del, false);
-    }  
-}
-
-void rotate(float angle){
-    crtpCommanderHighLevelGoTo(0.0f, 0.0f, 0.0f, angle, 0.1f, true);
-}
+static float minimalRangeDist = 400.0f;
+static float minimalRSSIDist = 35.0f;
+static float minReturnBaseDist = 500.0f;
+static float travelDistance = 0.05f;
 
 void goForward(float distance){
     crtpCommanderHighLevelGoTo(distance, 0.0f, 0.0f, 0.0f, 0.2f, true);
@@ -54,53 +39,30 @@ void lowerDrone(float height){
 
 void selectMovingDirection() {
     switch (m_cDir) {
-        case FRONT : goForward(0.05f);break;
-        case LEFT  : goLeft(0.05f);break;
-        case BACK  : goBackwards(0.05f);break;
-        case RIGHT : goRight(0.05f);break;
+        case FRONT : goForward(travelDistance);break;
+        case LEFT  : goLeft(travelDistance);break;
+        case BACK  : goBackwards(travelDistance);break;
+        case RIGHT : goRight(travelDistance);break;
         default: break;
     }
-
-    //sleepus(100000);
 }
 
 void avoidObstacles(struct RangingDeckReadings readings){
-    if (readings.frontDistance < minimalDist) { goBackwards(0.05f); stayInPlace(); m_cDir = BACK; }
-    if (readings.leftDistance  < minimalDist) { goRight(0.05f);     stayInPlace(); m_cDir = RIGHT;}
-    if (readings.backDistance  < minimalDist) { goForward(0.05f);   stayInPlace(); m_cDir = FRONT;}
-    if (readings.rightDistance < minimalDist) { goLeft(0.05f);      stayInPlace(); m_cDir = LEFT;}
+    if (readings.frontDistance < minimalRangeDist) { goBackwards(0.05f); stayInPlace(); m_cDir = BACK; }
+    if (readings.leftDistance  < minimalRangeDist) { goRight(0.05f);     stayInPlace(); m_cDir = RIGHT;}
+    if (readings.backDistance  < minimalRangeDist) { goForward(0.05f);   stayInPlace(); m_cDir = FRONT;}
+    if (readings.rightDistance < minimalRangeDist) { goLeft(0.05f);      stayInPlace(); m_cDir = LEFT;}
 }
 
 void explore(){
-
     struct RangingDeckReadings readings;
     readings.frontDistance = getFrontDistance();
     readings.backDistance = getBackDistance();
     readings.leftDistance = getLeftDistance();
     readings.rightDistance = getRightDistance();
-
-    /* Move the drone in the map 
-    float xValue = 0.0f;
-    float yValue = 0.0f;
-    logVarId_t xID = logGetVarId("stateEstimate", "x");
-    logVarId_t yID = logGetVarId("stateEstimate", "y");
-    xValue = logGetFloat(xID);
-    yValue = logGetFloat(yID);
-    map.Move(&map, (int) (xValue * 100.0f), (int) (yValue * 100.0f));*/
-
-    /* Add the sensor value to the map */
-    //map.AddData(&map,
-    //            (int) (readings.leftDistance / 10),   /* left distance  in cm */
-    //            (int) (readings.frontDistance / 10),  /* Front distance in cm */
-    //            (int) (readings.rightDistance / 10),  /* right distance in cm */
-    //            (int) (readings.backDistance / 10));  /* back distance  in cm */
-
-    /* Get the best direction to explore, according to potential information gain */
-    //m_cDir = (CfDir) map.GetBestDir(&map, (MapExplorationDir) m_cDir);
-
-    /* If the drone is too close to an obstacle, move away */
     avoidObstacles(readings);
 
+    // Changes direction every 80 steps.
     if (step % 80 == 0) {
         if (m_cDir == FRONT || m_cDir == BACK) {
             m_cDir = (readings.leftDistance > readings.rightDistance)? LEFT : RIGHT;
@@ -108,10 +70,8 @@ void explore(){
             m_cDir = (readings.frontDistance > readings.backDistance)? FRONT : BACK;
         }
     }
-
     /* Move the drone in the direction m_cDir */
     selectMovingDirection(); 
-
     step++;   
 };
 
@@ -122,8 +82,7 @@ bool goToBase() {
     readings.leftDistance = getLeftDistance();
     readings.rightDistance = getRightDistance();
     
-
-    if (getRSSI() <= 35.0f) {
+    if (getRSSI() <= minimalRSSIDist) {
         if (debounce <= 5){
             debounce += 1;
             avoidObstacles(readings);
@@ -136,11 +95,10 @@ bool goToBase() {
         debounce = 0;
     }
 
-
-    if (readings.backDistance >= 500.0f) {
+    if (readings.backDistance >= minReturnBaseDist) {
         m_cDir = BACK;
     }
-    else if (readings.leftDistance >= 500.0f) {
+    else if (readings.leftDistance >= minReturnBaseDist) {
         m_cDir = LEFT;
     }
     else {
@@ -149,75 +107,5 @@ bool goToBase() {
     avoidObstacles(readings);
     /* Move the drone in the direction m_cDir */
     selectMovingDirection();    
-
     return false;
-    // /* Move the drone in the map */
-    // float xValue = 0.0f;
-    // float yValue = 0.0f;
-    // logVarId_t xID = logGetVarId("stateEstimate", "x");
-    // logVarId_t yID = logGetVarId("stateEstimate", "y");
-    // xValue = logGetFloat(xID);
-    // yValue = logGetFloat(yID);
-    // map.Move(&map, (int) (xValue * 100.0f), (int) (yValue * 100.0f));
-
-    // if (map.distMap[map.mBase.x][map.mBase.y] == 0) {
-    //     map.BuildFlow(&map);
-    // }
-
-    // if (getRSSI() <= 36) {
-    //     lowerDrone(0.0f);
-    // }
-
-    // // We get the next direction
-    // m_cDir = (CfDir) map.NextNode(&map,  
-    //             (int) (readings.leftDistance / 10),   /* left distance  in cm */
-    //             (int) (readings.frontDistance / 10),  /* Front distance in cm */
-    //             (int) (readings.rightDistance / 10),  /* right distance in cm */
-    //             (int) (readings.backDistance / 10));  /* back distance  in cm */
-}
-
-void test(){
-    //if(!isP2PSender){p2pRegisterCB(p2pCallbackHandler);} // register a call back if you are not the sender
-    struct RangingDeckReadings readings;
-    readings.frontDistance = getFrontDistance();
-    readings.backDistance = getBackDistance();
-    readings.leftDistance = getLeftDistance();
-    readings.rightDistance = getRightDistance();
-
-    if(readings.frontDistance < 250.0f){
-        goBackwards(0.05f);
-    }
-
-    if(readings.backDistance < 250.0f){
-        goForward(0.05f);
-    }
-
-    if(readings.leftDistance < 250.0f){
-        goRight(0.05f);
-    }
-
-    if(readings.rightDistance < 250.0f){
-        goLeft(0.05f);
-    }
-
-};
-
-void init(){
-    /*uint64_t address = configblockGetRadioAddress();
-    uint8_t id = (uint8_t) ((address) & 0x00000000ff);
-    if(id == 1){
-        isP2PSender = true;
-        debug(4);
-    }*/
-
-    /* Initialization of the map */
-	ExploreMapNew(&map);
-    //TODO: get the initial position of the drone
-   	map.Construct(&map, (int) (5 * 100), (int) (5 * 100)); // Initial position of the drone, in cm
-}
-
-void p2pCallbackHandler(P2PPacket *p){
-    // Do not make fonction too long ***
-    // call drone avoidance with p->data
-    //testing = true;
 }
