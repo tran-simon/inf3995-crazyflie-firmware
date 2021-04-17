@@ -55,8 +55,7 @@ RUN cd crazyflie-clients-python &&\
 
 WORKDIR /root/crazyflie-firmware/inf3995-firmware
 
-#RUN make
-
+#Starting server in order to flash drone through the frontend
 WORKDIR ../server
 
 RUN npm install
