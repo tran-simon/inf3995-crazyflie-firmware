@@ -7,7 +7,6 @@ struct Information activateCommand(char command, bool returnToBase){
     {
     //Take off
     case 't':
-        //takeOff();
         response.type = 't';
         response.value1 = 1.0f;
         response.value2 = 0.0f;
@@ -18,7 +17,6 @@ struct Information activateCommand(char command, bool returnToBase){
         break;
     //Explore
     case 'e':
-        //exploration();
         response.type = 't';
         response.value1 = 1.0f;
         response.value2 = 0.0f;
@@ -29,7 +27,6 @@ struct Information activateCommand(char command, bool returnToBase){
         break;
     // Land
     case 'l':
-        //land();
         response.type = 'l';
         response.value1 = 1.0f;
         response.value2 = 0.0f;
