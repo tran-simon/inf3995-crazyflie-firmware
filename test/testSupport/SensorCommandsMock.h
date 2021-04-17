@@ -34,8 +34,6 @@ float getBattery();
 
 float getRSSI();
 
-float getSpeed(state_t state);
-
-point_t getPoint(state_t state);
+float getSpeed();
 
 #endif
