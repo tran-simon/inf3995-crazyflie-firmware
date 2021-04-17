@@ -1,7 +1,5 @@
 #include "crtp_commander_high_level.h"
 #include "../interface/SensorCommands.h"
-#include "explore_map.h"
-#include "node_array.h"
 
 /**
  * @brief Struct that represent the value read from the distance sensor.
@@ -19,21 +17,9 @@ struct RangingDeckReadings{
 };
 
 /**
- * @brief Enum that represent drone direction of mouvement.
- * 
- * @param FRONT = X_POS = 0
- * @param LEFT  = Y_NEG = 3
- * @param BACK  = X_NEG = 1
- * @param RIGHT = Y_POS = 2
- * @param STOP  = NONE  = 4
+ * @brief Enum that represents in which state of direction the drone is in
  */
-typedef enum {
-   FRONT = X_POS,
-   LEFT  = Y_NEG,
-   BACK  = X_NEG,
-   RIGHT = Y_POS,
-   STOP  = NONE
-} CfDir;
+enum CfDir {FRONT, BACK, LEFT, RIGHT};
 
 /**
  * @brief This function makes the drone move forward.

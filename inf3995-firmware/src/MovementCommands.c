@@ -1,7 +1,7 @@
 #include "../interface/MovementCommands.h"
 
 /* Declaration of global variables*/
-static CfDir m_cDir = FRONT;
+static enum CfDir m_cDir = FRONT;
 static int step = 0;
 static int debounce = 0;
 static float minimalRangeDist = 400.0f;

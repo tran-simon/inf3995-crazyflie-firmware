@@ -33,13 +33,12 @@ struct Information getStats(char command){
             // In flight
             response.value1 = 1.0f;
         }
+        else {
+            response.value1 = 0.0f;
+        }
         if(sitAwTuDetected()){
             // Crashed
             response.value1 = 2.0f;
-        }
-        else {
-            // In standby
-            response.value1 = 0.0f;
         }
         response.value2 = (float)0.0;
         response.value3 = (float)0.0;
