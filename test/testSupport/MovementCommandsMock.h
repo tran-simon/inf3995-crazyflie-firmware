@@ -38,11 +38,11 @@ void lowerDrone(float height, struct DroneMock* drone);
 
 void selectMovingDirection(enum CfDir dir, struct DroneMock* drone);
 
-void avoidObstacles(struct RangingDeckReadings readings);
+void avoidObstacles(struct RangingDeckReadings readings, struct DroneMock* drone, enum CfDir* dir);
 
-void explore();
+void explore(struct DroneMock* drone, int step, struct RangingDeckReadings readings, enum CfDir* dir);
 
-bool goToBase();
+bool goToBase(struct DroneMock* drone, struct RangingDeckReadings readings, enum CfDir* dir, float RSSI, int debounce);
 
 void stayInPlace(struct DroneMock* drone);
 
