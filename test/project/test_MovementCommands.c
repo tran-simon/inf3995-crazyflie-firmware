@@ -196,7 +196,8 @@ void testThatavoidObstaclesAvoidsFrontObstacles() {
   struct RangingDeckReadings readings = {100.0f, 500.0f, 500.0f, 500.0f};
   struct DroneMock droneValues = {0.0f, 0.0f, 0.0f, readings};
   struct DroneMock* drone = &droneValues;
-  enum CfDir* direction;
+  int dir = 0;
+  enum CfDir* direction = &dir;
 
   // Test
   avoidObstacles(readings, drone, direction);
@@ -230,7 +231,8 @@ void testThatavoidObstaclesAvoidsBackObstacles() {
   struct RangingDeckReadings readings = {500.0f, 100.0f, 500.0f, 500.0f};
   struct DroneMock droneValues = {0.0f, 0.0f, 0.0f, readings};
   struct DroneMock* drone = &droneValues;
-  enum CfDir* direction;
+  int dir = 0;
+  enum CfDir* direction = &dir;
 
   // Test
   avoidObstacles(readings, drone, direction);
