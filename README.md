@@ -1,4 +1,13 @@
-# Crazyflie Firmware  [![CI](https://github.com/bitcraze/crazyflie-firmware/workflows/CI/badge.svg)](https://github.com/bitcraze/crazyflie-firmware/actions?query=workflow%3ACI)
+# INF3995-crazyflie-firmware
+Ce projet est un fork de [crazyflie-firmware.](https://github.com/bitcraze/crazyflie-firmware)
+
+Le répertoire inf3995-firmware contient notre code personnalisé.
+
+Le répertoire server contient le code du serveur node permettant la mise-à-jour à distance
+
+Utilisez le docker-compose du répertoire inf3995-main pour compiler le firmware. Voir le README
+
+---
 
 This project contains the source code for the firmware used in the Crazyflie range of platforms, including
 the Crazyflie 2.X and the Roadrunner.
