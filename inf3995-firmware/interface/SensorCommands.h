@@ -1,3 +1,6 @@
+#ifndef __SENSOR_COMMANDS__
+#define __SENSOR_COMMANDS__
+
 #include "log.h"
 #include "param.h"
 #include "pm.h"
@@ -33,9 +36,9 @@ float getFrontDistance();
 float getBackDistance();
 
 /**
- * @brief Retreive the battery of the drone
+ * @brief Retreive the battery voltage of the drone
  * 
- * @return the battery level
+ * @return the battery voltage
  */
 float getBattery();
 
@@ -51,11 +54,6 @@ float getRSSI();
  * 
  * @return the speed value
  */
-float getSpeed(state_t state);
+float getSpeed();
 
-/**
- * @brief Retreive the closest point to the front of the drone
- * 
- * @return the point value
- */
-point_t getPoint(state_t state);
+#endif /* __SENSOR_COMMANDS__ */

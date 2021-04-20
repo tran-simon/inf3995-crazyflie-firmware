@@ -39,9 +39,6 @@ app.get('/flash', (req, res) => {
   runCommand('make cload', res, "Error while cleaning: ")
 })
 
-
-
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`)
 });
-

@@ -1,9 +1,7 @@
 #include "MovementCommands.h"
 #include "sleepus.h"
-#include "led.h"
-#include "app_channel.h"
 /**
- * @brief Take off drone and start exploring
+ * @brief Take off drone
  * 
  * @return void
  */
@@ -19,8 +17,13 @@ void land();
 /**
  * @brief Land the drone at the base of operations
  *
- * @return bool whether the drone is landing
+ * @return bool whether the drone has landed or still returning to base
  */
 bool returnToBase();
 
+/**
+ * @brief Drone starts exploring
+ * 
+ * @return void
+ */
 void exploration();

@@ -1,11 +1,9 @@
-#include "../interface/InformationHandler.h"
+#include "InformationHandlerMock.h"
 
-struct Information getStats(char command){
+struct Information getStats(char command) {
     struct Information response;
-   
-    switch (command)
-    {
-    //Get the battery
+    switch(command){
+        //Get the battery
     case 'b':
         response.value1 = getBattery();
         response.value2 = (float)0.0;
@@ -15,7 +13,7 @@ struct Information getStats(char command){
         response.value6 = (float)0.0;
         response.type = 'b';
         break;
-    
+
     //Get the speed
     case 'v':
         response.value1 = getSpeed();
@@ -30,14 +28,12 @@ struct Information getStats(char command){
     //Get the state
     case 's':
         if(getSpeed() >= 0.01f) {
-            // In flight
             response.value1 = 1.0f;
         }
         else {
             response.value1 = 0.0f;
         }
-        if(sitAwTuDetected()){
-            // Crashed
+        if(CRASHED){
             response.value1 = 2.0f;
         }
         response.value2 = (float)0.0;
@@ -48,12 +44,9 @@ struct Information getStats(char command){
         response.type = 's';
         break;
     
-    // Get informations for the map
-    case 'm':;
-        logVarId_t yID = logGetVarId("stateEstimate", "y");
-        logVarId_t xID = logGetVarId("stateEstimate", "x");
-        response.value1 = logGetFloat(xID);
-        response.value2 = logGetFloat(yID);
+    case 'm':
+        response.value1 = POS_X;
+        response.value2 = POS_Y;
         response.value3 = getFrontDistance();
         response.value4 = getBackDistance();
         response.value5 = getLeftDistance();
@@ -66,4 +59,4 @@ struct Information getStats(char command){
     };
 
     return response;
-};
+}
