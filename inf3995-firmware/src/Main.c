@@ -11,7 +11,10 @@
 #include "param.h"
 #include "../interface/InformationHandler.h"
 #include "../interface/CommandHandler.h"
+#include "../interface/SensorCommands.h"
+#include "led.h"
 
+#define VBAT_30 3.75f
 
 void appMain()
 {
@@ -36,9 +39,14 @@ void appMain()
 				appchannelSendPacket(&response, sizeof(response));
 			}
 			else if (command == 't') {
-				activateCommand('t');
-				// switch to explore state
-				state = 'e';
+				// The drone take off only if it has enough battery
+				if (getBattery() < VBAT_30) {
+					ledSet(2, true);
+				} else {
+					activateCommand('t');
+					// switch to explore state
+					state = 'e';
+				}
 			}
 			else if (command == 'r') {
 				// switch to return to base state
@@ -52,8 +60,13 @@ void appMain()
 		}
 		switch (state){
 			case 'e': {
-				// explore state
-				activateCommand('e');
+				// If the drone is under 30%, switch to return to base
+				if (getBattery() < VBAT_30) {
+					state = 'r';
+				} else {
+					// explore state
+					activateCommand('e');
+				}
 				break;
 			}
 			case 'r': {
